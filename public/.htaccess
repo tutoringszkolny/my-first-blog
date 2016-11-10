@@ -1,0 +1,32 @@
+# Don't allow browsing of directories
+#Options -Indexes
+
+# Follow symbolic links in this directory
+#Options +FollowSymLinks
+
+# Set the default handler.
+DirectoryIndex index.php
+
+<FilesMatch "\.(htaccess|htpasswd|ini)$">
+  deny from all
+</FilesMatch>
+
+# PHP settings
+#php_flag magic_quotes_gpc off
+#php_flag register_globals off
+#php_flag short_open_tag on
+
+RewriteBase /
+RewriteBase  /index.php/
+
+# Rewrite-Rules
+<IfModule mod_rewrite.c>
+  RewriteEngine on
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} !=/favicon.ico
+  RewriteRule .* index.php
+  
+  #RewriteCond %{ENV:REDIRECT_STATUS} 404
+  #RewriteRule .* index.php [E=REDIRECT_STATUS:404,L]
+</IfModule>
